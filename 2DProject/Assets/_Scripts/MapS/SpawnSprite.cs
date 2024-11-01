@@ -1,11 +1,9 @@
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine;
 
 public class SpawnSprite : MonoBehaviour
 {
-    public int width = 256;
-    public int height = 256;
     [Range(1, 100)]
     public float scale = 20f;
     [Range(0, 1)]
@@ -17,38 +15,35 @@ public class SpawnSprite : MonoBehaviour
     public Tile whiteTile;
 
     private bool[,] noiseMap;
+    private int width;
+    private int height;
 
-    void Start()
-    {
-        GenerateCaves();
-    }
+    private float randomOffsetX; // Зміщення по X
+    private float randomOffsetY; // Зміщення по Y
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.R))
-        {
-            GenerateCaves();
-        }
-        //GenerateCaves();
-    }
 
-    void GenerateCaves()
+
+    public void GenerateCaves(int mapWidth, int mapHeight)
     {
+        randomOffsetX = Random.Range(0f, 100f);
+        randomOffsetY = Random.Range(0f, 100f);
+        width = mapWidth;
+        height = mapHeight;
+
         noiseMap = GenerateNoiseMap();
 
-        // Фільтрація маленьких областей
         FilterSmallRegions();
 
-        // Очищуємо попередні плитки
         tilemap.ClearAllTiles();
 
-        // Заповнення Tilemap на основі відфільтрованої noiseMap
+        Vector3Int offset = new Vector3Int(-width / 2, -height / 2, 0);
+
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
                 Tile tileToPlace = noiseMap[x, y] ? blackTile : whiteTile;
-                tilemap.SetTile(new Vector3Int(x, y, 0), tileToPlace);
+                tilemap.SetTile(new Vector3Int(x, y, 0) + offset, tileToPlace);
             }
         }
     }
@@ -61,8 +56,9 @@ public class SpawnSprite : MonoBehaviour
         {
             for (int x = 0; x < width; x++)
             {
-                float xCoord = (float)x / width * scale;
-                float yCoord = (float)y / height * scale;
+                // Додаємо випадкове зміщення до координат
+                float xCoord = (float)x / width * scale + randomOffsetX;
+                float yCoord = (float)y / height * scale + randomOffsetY;
 
                 float noiseValue = Mathf.PerlinNoise(xCoord, yCoord);
                 map[x, y] = noiseValue > threshold;
@@ -115,14 +111,13 @@ public class SpawnSprite : MonoBehaviour
         queue.Enqueue(new Vector2Int(startX, startY));
         visited[startX, startY] = true;
 
-        // Замість двовимірного масиву використовуйте масив Vector2Int
         Vector2Int[] directions =
         {
-        new Vector2Int(0, 1),  // Вгору
-        new Vector2Int(1, 0),  // Праворуч
-        new Vector2Int(0, -1), // Вниз
-        new Vector2Int(-1, 0)  // Ліворуч
-    };
+            new Vector2Int(0, 1),
+            new Vector2Int(1, 0),
+            new Vector2Int(0, -1),
+            new Vector2Int(-1, 0)
+        };
 
         while (queue.Count > 0)
         {
@@ -148,5 +143,10 @@ public class SpawnSprite : MonoBehaviour
     bool IsInMapRange(int x, int y)
     {
         return x >= 0 && x < width && y >= 0 && y < height;
+    }
+
+    public void Clear()
+    {
+        tilemap.ClearAllTiles();
     }
 }

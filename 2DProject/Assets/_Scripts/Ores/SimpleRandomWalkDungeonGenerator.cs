@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -8,9 +9,8 @@ public class SimpleRandomWalkDungeonGenerator : AbstractDungeonGenerator
 
     [SerializeField]
     protected SimpleRandomWalkSO randomWalkParameters;
-
     protected override void RunProceduralGeneration()
-    {            
+    {
         int x = worldSize.x - boardWidth.x;
         int y = worldSize.y - boardWidth.y;
         for (int i = 0; i < numberObjects; i++) 
