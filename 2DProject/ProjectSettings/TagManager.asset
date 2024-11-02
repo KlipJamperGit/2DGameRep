@@ -13,7 +13,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - fon
   - 
   - Walls
   - 
@@ -40,6 +40,15 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Fon
+    uniqueID: 3739746583
+    locked: 0
+  - name: Walls
+    uniqueID: 2941010999
+    locked: 0
+  - name: Ores
+    uniqueID: 1052378889
     locked: 0
   m_RenderingLayers:
   - Default

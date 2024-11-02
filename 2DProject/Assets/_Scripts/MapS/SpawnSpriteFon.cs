@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 using UnityEngine;
 
-public class SpawnSprite : MonoBehaviour
+public class SpawnSpriteFon : MonoBehaviour
 {
     [Range(1, 100)]
     public float scale = 20f;
@@ -11,6 +11,7 @@ public class SpawnSprite : MonoBehaviour
     public int minRegionSize = 20;
 
     public Tilemap tilemap;
+    public Tilemap tilemapWalls;
     public Tile blackTile;
     public Tile whiteTile;
 
@@ -21,8 +22,6 @@ public class SpawnSprite : MonoBehaviour
     private float randomOffsetX; // Зміщення по X
     private float randomOffsetY; // Зміщення по Y
 
-
-
     public void GenerateCaves(int mapWidth, int mapHeight)
     {
         randomOffsetX = Random.Range(0f, 100f);
@@ -31,10 +30,10 @@ public class SpawnSprite : MonoBehaviour
         height = mapHeight;
 
         noiseMap = GenerateNoiseMap();
-
         FilterSmallRegions();
 
         tilemap.ClearAllTiles();
+        tilemapWalls.ClearAllTiles();
 
         Vector3Int offset = new Vector3Int(-width / 2, -height / 2, 0);
 
@@ -44,6 +43,12 @@ public class SpawnSprite : MonoBehaviour
             {
                 Tile tileToPlace = noiseMap[x, y] ? blackTile : whiteTile;
                 tilemap.SetTile(new Vector3Int(x, y, 0) + offset, tileToPlace);
+
+                // Якщо плитка чорна, додати її на другий Tilemap
+                if (noiseMap[x, y])
+                {
+                    tilemapWalls.SetTile(new Vector3Int(x, y, 0) + offset, blackTile);
+                }
             }
         }
     }
@@ -56,7 +61,6 @@ public class SpawnSprite : MonoBehaviour
         {
             for (int x = 0; x < width; x++)
             {
-                // Додаємо випадкове зміщення до координат
                 float xCoord = (float)x / width * scale + randomOffsetX;
                 float yCoord = (float)y / height * scale + randomOffsetY;
 
@@ -148,5 +152,6 @@ public class SpawnSprite : MonoBehaviour
     public void Clear()
     {
         tilemap.ClearAllTiles();
+        tilemapWalls.ClearAllTiles();
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class AbstractDungeonGenerator : MonoBehaviour
 {
     [SerializeField] protected TilemapVisualizer tilemapVisualizer = null;
-    [SerializeField] protected SpawnSprite map = null;
+    [SerializeField] protected SpawnSpriteFon map = null;
     [SerializeField] protected Vector2Int startPosition = Vector2Int.zero;
     [SerializeField] protected Vector2Int worldSize = Vector2Int.zero;
     [SerializeField] protected Vector2Int boardWidth = Vector2Int.zero;
