@@ -15,6 +15,8 @@ public class SpawnSpriteFon : MonoBehaviour
     public Tile blackTile;
     public Tile whiteTile;
 
+    public Tile blackTileCollaider;
+
     private bool[,] noiseMap;
     private int width;
     private int height;
@@ -47,7 +49,7 @@ public class SpawnSpriteFon : MonoBehaviour
                 // Якщо плитка чорна, додати її на другий Tilemap
                 if (noiseMap[x, y])
                 {
-                    tilemapWalls.SetTile(new Vector3Int(x, y, 0) + offset, blackTile);
+                    tilemapWalls.SetTile(new Vector3Int(x, y, 0) + offset, blackTileCollaider);
                 }
             }
         }

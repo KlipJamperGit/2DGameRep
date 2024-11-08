@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class AbstractDungeonGenerator : MonoBehaviour
 {
-    [SerializeField] protected TilemapVisualizer tilemapVisualizer = null;
+    [SerializeField] protected TilemapVisualizer[] tilemapVisualizer = null;
     [SerializeField] protected SpawnSpriteFon map = null;
     [SerializeField] protected Vector2Int startPosition = Vector2Int.zero;
     [SerializeField] protected Vector2Int worldSize = Vector2Int.zero;
@@ -15,8 +16,8 @@ public abstract class AbstractDungeonGenerator : MonoBehaviour
     public void GenerateDungeon()
     {
         map.Clear();
-        tilemapVisualizer.Clear();
-       
+
+        tilemapVisualizer[0].Clear();
         RunProceduralGeneration();
         map.GenerateCaves(worldSize.x * 2, worldSize.y * 2);
     }
