@@ -21,8 +21,8 @@ public class SpawnSpriteFon : MonoBehaviour
     private int width;
     private int height;
 
-    private float randomOffsetX; // «м≥щенн€ по X
-    private float randomOffsetY; // «м≥щенн€ по Y
+    private float randomOffsetX; 
+    private float randomOffsetY; 
 
     public void GenerateCaves(int mapWidth, int mapHeight)
     {
