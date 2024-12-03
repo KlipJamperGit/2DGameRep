@@ -4,25 +4,33 @@ using UnityEngine;
 
 public class SpawnSpriteFon : MonoBehaviour
 {
+    public List<GameObject> objects;
+
     [Range(1, 100)]
     public float scale = 20f;
+
     [Range(0, 1)]
     public float threshold = 0.5f;
+
+    [Range(0, 1)]
+    public float density = 0.5f; // Щільність спавну об'єктів
+
     public int minRegionSize = 20;
 
     public Tilemap tilemap;
     public Tilemap tilemapWalls;
     public Tile blackTile;
     public Tile whiteTile;
-
-    public Tile blackTileCollaider;
+    [SerializeField] TilemapVisualizer tilemapVisualizer;
 
     private bool[,] noiseMap;
     private int width;
     private int height;
 
-    private float randomOffsetX; 
-    private float randomOffsetY; 
+    private float randomOffsetX;
+    private float randomOffsetY;
+
+    private List<GameObject> spawnedObjects = new List<GameObject>(); // Список для збереження створених об'єктів
 
     public void GenerateCaves(int mapWidth, int mapHeight)
     {
@@ -36,6 +44,7 @@ public class SpawnSpriteFon : MonoBehaviour
 
         tilemap.ClearAllTiles();
         tilemapWalls.ClearAllTiles();
+        ClearSpawnedObjects(); // Видаляємо попередні об'єкти
 
         Vector3Int offset = new Vector3Int(-width / 2, -height / 2, 0);
 
@@ -46,13 +55,86 @@ public class SpawnSpriteFon : MonoBehaviour
                 Tile tileToPlace = noiseMap[x, y] ? blackTile : whiteTile;
                 tilemap.SetTile(new Vector3Int(x, y, 0) + offset, tileToPlace);
 
-                // Якщо плитка чорна, додати її на другий Tilemap
                 if (noiseMap[x, y])
                 {
-                    tilemapWalls.SetTile(new Vector3Int(x, y, 0) + offset, blackTileCollaider);
+                    Tile wallTile = GetWallTile(x, y);
+                    tilemapWalls.SetTile(new Vector3Int(x, y, 0) + offset, wallTile);
+
+                    // Спавн об'єкта за умови, що клітинки зверху і з боків вільні
+                    if (CanSpawnObject(x, y))
+                    {
+                        if (Random.value <= density)
+                        {
+                            SpawnRandomObject(new Vector3Int(x, y, 0) + offset);
+                        }
+                    }
                 }
             }
         }
+    }
+
+    bool CanSpawnObject(int x, int y)
+    {
+        // Перевіряємо клітинки зверху
+        for (int i = 1; i <= 3; i++)
+        {
+            if (!IsCellEmpty(x, y + i)) return false;
+        }
+
+        // Перевіряємо клітинки зліва та справа на трьох рівнях зверху
+        //for (int i = 0; i < 3; i++)
+        //{
+        //    int checkY = y + i;
+        //    if (!IsCellEmpty(x - 1, checkY) || !IsCellEmpty(x + 1, checkY)) return false;
+        //}
+
+        // Перевіряємо клітинки знизу
+        if (!IsCellEmpty(x, y - 1)) return false;
+
+        return true;
+    }
+    bool IsCellEmpty(int x, int y)
+    {
+        return IsInMapRange(x, y) && !noiseMap[x, y];
+    }
+    void SpawnRandomObject(Vector3Int cellPosition)
+    {
+        if (objects != null && objects.Count > 0)
+        {
+            GameObject randomObject = objects[Random.Range(0, objects.Count)];
+            Vector3 worldPosition = tilemap.CellToWorld(cellPosition) + new Vector3(0.5f, 0.5f, 0);
+            GameObject newObject = Instantiate(randomObject, worldPosition, Quaternion.identity);
+
+            // Додаємо створений об'єкт до списку
+            spawnedObjects.Add(newObject);
+        }
+    }
+
+    public void ClearSpawnedObjects()
+    {
+        // Видаляємо всі створені об'єкти
+        foreach (GameObject obj in spawnedObjects)
+        {
+            if (obj != null)
+            {
+                DestroyImmediate(obj);
+            }
+        }
+        spawnedObjects.Clear(); // Очищаємо список
+    }
+
+    Tile GetWallTile(int x, int y)
+    {
+        bool top = IsInMapRange(x, y + 1) && noiseMap[x, y + 1];
+        bool bottom = IsInMapRange(x, y - 1) && noiseMap[x, y - 1];
+        bool left = IsInMapRange(x - 1, y) && noiseMap[x - 1, y];
+        bool right = IsInMapRange(x + 1, y) && noiseMap[x + 1, y];
+
+        if (top && bottom && left && right) return (Tile)tilemapVisualizer.floorTile;
+        if (top && !bottom && !left && !right) return (Tile)tilemapVisualizer.wallTop;
+        if (!top && bottom && !left && !right) return (Tile)tilemapVisualizer.wallBottom;
+
+        return (Tile)tilemapVisualizer.wallTop;
     }
 
     bool[,] GenerateNoiseMap()
@@ -155,5 +237,6 @@ public class SpawnSpriteFon : MonoBehaviour
     {
         tilemap.ClearAllTiles();
         tilemapWalls.ClearAllTiles();
+        ClearSpawnedObjects(); // Видаляємо об'єкти при очищенні
     }
 }
