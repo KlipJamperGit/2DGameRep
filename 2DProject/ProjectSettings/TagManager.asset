@@ -44,11 +44,32 @@ TagManager:
   - name: Fon
     uniqueID: 3739746583
     locked: 0
+  - name: Tree2
+    uniqueID: 3997320907
+    locked: 0
   - name: Walls
     uniqueID: 2941010999
     locked: 0
+  - name: Tree1
+    uniqueID: 2787721997
+    locked: 0
+  - name: DecWeapons
+    uniqueID: 1734147603
+    locked: 0
+  - name: Decoration2
+    uniqueID: 1047351601
+    locked: 0
+  - name: Decoration1
+    uniqueID: 1410996573
+    locked: 0
+  - name: Text
+    uniqueID: 2818885899
+    locked: 0
   - name: Ores
     uniqueID: 1052378889
+    locked: 0
+  - name: New Layer 10
+    uniqueID: 1268016153
     locked: 0
   m_RenderingLayers:
   - Default
