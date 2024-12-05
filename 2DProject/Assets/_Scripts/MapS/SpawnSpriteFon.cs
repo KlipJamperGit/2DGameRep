@@ -31,7 +31,7 @@ public class SpawnSpriteFon : MonoBehaviour
     private float randomOffsetY;
 
     private List<GameObject> spawnedObjects = new List<GameObject>(); // Список для збереження створених об'єктів
-
+    public GameObject objectsContainer; // Контейнер для заспавнених об'єктів
     public void GenerateCaves(int mapWidth, int mapHeight)
     {
         randomOffsetX = Random.Range(0f, 100f);
@@ -97,30 +97,42 @@ public class SpawnSpriteFon : MonoBehaviour
     {
         return IsInMapRange(x, y) && !noiseMap[x, y];
     }
+    
+
     void SpawnRandomObject(Vector3Int cellPosition)
     {
         if (objects != null && objects.Count > 0)
         {
             GameObject randomObject = objects[Random.Range(0, objects.Count)];
-            Vector3 worldPosition = tilemap.CellToWorld(cellPosition) + new Vector3(0.5f, 0.5f, 0);
-            GameObject newObject = Instantiate(randomObject, worldPosition, Quaternion.identity);
 
-            // Додаємо створений об'єкт до списку
-            spawnedObjects.Add(newObject);
+            Vector3 worldPosition = tilemap.CellToWorld(cellPosition);
+            worldPosition += new Vector3(0.5f, 0.5f, 0); // Вирівнювання об'єкта по центру клітинки
+
+            // Створення об'єкта
+            GameObject spawnedObject = Instantiate(randomObject, worldPosition, Quaternion.identity);
+
+            // Додавання до контейнера
+            if (objectsContainer == null)
+            {
+                objectsContainer = new GameObject("SpawnedObjectsContainer"); // Створення контейнера, якщо його немає
+            }
+
+            spawnedObject.transform.parent = objectsContainer.transform;
+
+            // Додавання до списку заспавнених об'єктів
+            spawnedObjects.Add(spawnedObject);
         }
     }
 
     public void ClearSpawnedObjects()
     {
-        // Видаляємо всі створені об'єкти
-        foreach (GameObject obj in spawnedObjects)
+        if (objectsContainer != null)
         {
-            if (obj != null)
-            {
-                DestroyImmediate(obj);
-            }
+            DestroyImmediate(objectsContainer); // Видаляємо контейнер і всі дочірні об'єкти
+            objectsContainer = null;   // Скидаємо посилання на контейнер
         }
-        spawnedObjects.Clear(); // Очищаємо список
+
+        spawnedObjects.Clear(); // Очищуємо список об'єктів
     }
 
     Tile GetWallTile(int x, int y)

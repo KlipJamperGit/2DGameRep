@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -14,13 +15,13 @@ TagManager:
   - 
   - 
   - fon
-  - 
+  - Trees1
   - Walls
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Trees2
+  - Decoration1
+  - Decoration2
+  - DecWeapons
+  - Text
   - 
   - 
   - 
@@ -38,17 +39,35 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
-    uniqueID: 0
-    locked: 0
   - name: Fon
     uniqueID: 3739746583
+    locked: 0
+  - name: Trees2
+    uniqueID: 166466415
     locked: 0
   - name: Walls
     uniqueID: 2941010999
     locked: 0
+  - name: Trees1
+    uniqueID: 1791635027
+    locked: 0
+  - name: DecWeapons
+    uniqueID: 1745615813
+    locked: 0
+  - name: Decoration2
+    uniqueID: 313444403
+    locked: 0
+  - name: Decoration1
+    uniqueID: 843038881
+    locked: 0
   - name: Ores
     uniqueID: 1052378889
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Text
+    uniqueID: 2926285511
     locked: 0
   m_RenderingLayers:
   - Default
