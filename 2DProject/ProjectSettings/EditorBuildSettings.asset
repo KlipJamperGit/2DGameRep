@@ -11,6 +11,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/AssetMy_________/Scenes/Map.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/uaechka/uaechka lubima/scenocky/Scenes/Main-Menu-Example.unity
+    guid: 590f605fed1463043828134c464ad21f
+  - enabled: 1
+    path: Assets/uaechka/uaechka lubima/scenocky/Scenes/Pause Menu.unity
+    guid: 895739cead9f0d44dbe98bc01f1841d2
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 3590b91b4603b465dbb4216d601bff33, type: 3}
   m_UseUCBPForAssetBundles: 0
