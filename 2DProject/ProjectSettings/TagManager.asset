@@ -8,7 +8,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - TransparentFX
   - Water
   - UI
   - 
@@ -47,11 +47,11 @@ TagManager:
   - name: Tree2
     uniqueID: 3997320907
     locked: 0
-  - name: Walls
-    uniqueID: 2941010999
-    locked: 0
   - name: Tree1
     uniqueID: 2787721997
+    locked: 0
+  - name: Walls
+    uniqueID: 2941010999
     locked: 0
   - name: DecWeapons
     uniqueID: 1734147603
@@ -68,8 +68,14 @@ TagManager:
   - name: Ores
     uniqueID: 1052378889
     locked: 0
-  - name: New Layer 10
+  - name: Bushes
     uniqueID: 1268016153
+    locked: 0
+  - name: TransparentFX
+    uniqueID: 2109186967
+    locked: 0
+  - name: Earth
+    uniqueID: 2230938859
     locked: 0
   m_RenderingLayers:
   - Default
