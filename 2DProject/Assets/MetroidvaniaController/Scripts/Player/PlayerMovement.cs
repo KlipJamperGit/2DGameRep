@@ -16,7 +16,10 @@ public class PlayerMovement : MonoBehaviour {
 	//bool dashAxis = false;
 	
 	// Update is called once per frame
-	void Update () {
+	void Start()
+    {
+    }
+    void Update () {
 
 		horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
 

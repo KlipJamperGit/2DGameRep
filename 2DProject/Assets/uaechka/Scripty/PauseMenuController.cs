@@ -3,26 +3,55 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenuController : MonoBehaviour
 {
-    // Name of the pause menu scene
     [SerializeField] private string pauseMenuSceneName = "Pause Menu";
+    private bool isPaused = false;
 
     void Update()
     {
-        // Check if the Escape key is pressed
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            LoadPauseMenu();
+            TogglePause();
         }
     }
 
-    // Load the pause menu scene
-    private void LoadPauseMenu()
+    public void TogglePause()
     {
-        // Check if the scene is already loaded
-        if (SceneManager.GetActiveScene().name != pauseMenuSceneName)
+        isPaused = !isPaused;
+
+        if (isPaused)
         {
-            SceneManager.LoadScene(pauseMenuSceneName, LoadSceneMode.Additive);
+            Time.timeScale = 0f; // Pause the game
+            if (!SceneManager.GetSceneByName(pauseMenuSceneName).isLoaded)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                SceneManager.LoadScene(pauseMenuSceneName, LoadSceneMode.Additive);
+            }
         }
+        else
+        {
+            Time.timeScale = 1f; // Resume the game
+            if (SceneManager.GetSceneByName(pauseMenuSceneName).isLoaded)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                SceneManager.UnloadSceneAsync(pauseMenuSceneName);
+            }
+
+        }
+    }
+    public void LoadScene()
+    {
+        Time.timeScale = 1f; // Resume the game
+        if (SceneManager.GetSceneByName(pauseMenuSceneName).isLoaded)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            SceneManager.UnloadSceneAsync(pauseMenuSceneName);
+        }
+    }
+    public bool IsGamePaused()
+    {
+        return isPaused;
     }
 }
-
