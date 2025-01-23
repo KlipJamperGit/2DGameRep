@@ -12,7 +12,7 @@ TagManager:
   - Water
   - UI
   - 
-  - text
+  - 
   - fon
   - 
   - Walls
@@ -56,14 +56,14 @@ TagManager:
   - name: DecWeapons
     uniqueID: 1734147603
     locked: 0
-  - name: Text
-    uniqueID: 2818885899
-    locked: 0
   - name: Decoration2
     uniqueID: 1047351601
     locked: 0
   - name: Decoration1
     uniqueID: 1410996573
+    locked: 0
+  - name: Text
+    uniqueID: 2818885899
     locked: 0
   - name: Ores
     uniqueID: 1052378889
@@ -76,9 +76,6 @@ TagManager:
     locked: 0
   - name: Earth
     uniqueID: 2230938859
-    locked: 0
-  - name: VisPlayer
-    uniqueID: 42360273
     locked: 0
   m_RenderingLayers:
   - Default
