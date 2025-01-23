@@ -45,8 +45,11 @@ public class Ally : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate()
 	{
-
-		if (life <= 0)
+        if (attackCheck.transform.position.y < -110f)
+        {
+            StartCoroutine(DestroyEnemy());
+        }
+        if (life <= 0)
 		{
 			StartCoroutine(DestroyEnemy());
 		}
@@ -89,10 +92,10 @@ public class Ally : MonoBehaviour
 						if ((distToPlayer > 0f && transform.localScale.x < 0f) || (distToPlayer < 0f && transform.localScale.x > 0f)) 
 							Flip();
 
-						if (randomDecision < 0.4f)
-							Run();
-						else if (randomDecision >= 0.4f && randomDecision < 0.6f)
+						if (randomDecision < 1f)
 							Jump();
+						else if (randomDecision >= 0.4f && randomDecision < 0.6f)
+							Run();
 						else if (randomDecision >= 0.6f && randomDecision < 0.8f)
 							StartCoroutine(Dash());
 						else if (randomDecision >= 0.8f && randomDecision < 0.95f)
@@ -266,10 +269,6 @@ public class Ally : MonoBehaviour
 
 	IEnumerator DestroyEnemy()
 	{
-		CapsuleCollider2D capsule = GetComponent<CapsuleCollider2D>();
-		capsule.size = new Vector2(1f, 0.25f);
-		capsule.offset = new Vector2(0f, -0.8f);
-		capsule.direction = CapsuleDirection2D.Horizontal;
 		transform.GetComponent<Animator>().SetBool("IsDead", true);
 		yield return new WaitForSeconds(0.25f);
 		m_Rigidbody2D.linearVelocity = new Vector2(0, m_Rigidbody2D.linearVelocity.y);
