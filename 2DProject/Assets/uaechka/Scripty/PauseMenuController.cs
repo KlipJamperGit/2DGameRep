@@ -4,8 +4,10 @@ using UnityEngine.SceneManagement;
 public class PauseMenuController : MonoBehaviour
 {
     [SerializeField] private string pauseMenuSceneName = "Pause Menu";
-    private bool isPaused = false;
-
+    private bool isPaused = true;
+    void Start()
+    {
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))

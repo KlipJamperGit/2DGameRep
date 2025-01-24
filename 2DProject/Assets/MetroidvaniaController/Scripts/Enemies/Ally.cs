@@ -157,9 +157,6 @@ public class Ally : MonoBehaviour
 			damage = Mathf.Abs(damage);
 			anim.SetBool("Hit", true);
 			life -= damage;
-			transform.gameObject.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(0, 0);
-			transform.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(direction * 300f, 100f)); 
-			StartCoroutine(HitTime());
 		}
 	}
 
@@ -212,7 +209,7 @@ public class Ally : MonoBehaviour
 		if (doOnceDecision)
 		{
 			anim.SetBool("IsWaiting", false);
-			m_Rigidbody2D.AddForce(new Vector2(0f, 850f));
+			m_Rigidbody2D.AddForce(new Vector2(0f, 1250f));
 			StartCoroutine(NextDecision(1f));
 		}
 	}
@@ -233,14 +230,7 @@ public class Ally : MonoBehaviour
 		endDecision = true;
 	}
 
-	IEnumerator HitTime()
-	{
-		isInvincible = true;
-		isHitted = true;
-		yield return new WaitForSeconds(0.1f);
-		isHitted = false;
-		isInvincible = false;
-	}
+
 
 	IEnumerator WaitToAttack(float time)
 	{
